@@ -36,6 +36,12 @@ public class TestApplicationContext {
         assertThrows(ParseException.class, () -> context.parseContext("null file", "file:"));
         assertThrows(ParseException.class, () -> context.parseContext("null file", "unknown:"));
     }
+
+    @Test
+    public void testParseContent(){
+        assertDoesNotThrow(() -> context.parseContext(
+                TestApplicationContext.class.getClassLoader().getResource("test-context.xml").getFile(), "file"));
+    }
 }
 
 
