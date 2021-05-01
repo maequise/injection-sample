@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xsd:schema xmlns="https://maequise.com/context"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            targetNamespace="https://maequise.com/context">
+
+    <xsd:element name="context">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:choice minOccurs="0" maxOccurs="unbounded">
+                    <xsd:element ref="bean"/>
+                </xsd:choice>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:complexType name="identifiedType" abstract="true">
+        <xsd:attribute name="id" type="xsd:string" use="required"/>
+    </xsd:complexType>
+
+    <xsd:group name="beanElement">
+        <xsd:sequence>
+            <xsd:choice minOccurs="0" maxOccurs="unbounded">
+                <xsd:element ref="property"/>
+                <xsd:element ref="constructor"/>
+            </xsd:choice>
+        </xsd:sequence>
+    </xsd:group>
+
+    <xsd:attributeGroup name="beanAttributes">
+        <xsd:attribute name="name" type="xsd:string"/>
+        <xsd:attribute name="class" type="xsd:string"/>
+    </xsd:attributeGroup>
+
+    <xsd:element name="bean">
+        <xsd:complexType>
+            <xsd:complexContent>
+                <xsd:extension base="identifiedType">
+                    <xsd:group ref="beanElement"/>
+                    <xsd:attributeGroup ref="beanAttributes"/>
+                </xsd:extension>
+            </xsd:complexContent>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:complexType name="propertyType">
+        <xsd:attribute name="name" type="xsd:string" use="required"/>
+        <xsd:attribute name="value" type="xsd:string"/>
+        <xsd:attribute name="ref" type="xsd:string"/>
+    </xsd:complexType>
+
+    <xsd:complexType name="attributeProperty">
+        <xsd:attribute name="type">
+            <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                    <xsd:enumeration value="string"/>
+                    <xsd:enumeration value="int"/>
+                    <xsd:enumeration value="boolean"/>
+                    <xsd:enumeration value="class"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+        </xsd:attribute>
+    </xsd:complexType>
+
+
+    <xsd:attributeGroup name="propertyGroupType">
+        <xsd:attribute name="string" type="xsd:string"/>
+        <xsd:attribute name="int" type="xsd:int"/>
+        <xsd:attribute name="boolean" type="xsd:boolean"/>
+        <xsd:attribute name="class" type="xsd:string"/>
+    </xsd:attributeGroup>
+
+    <xsd:element name="property">
+        <xsd:complexType>
+            <xsd:complexContent>
+                <xsd:extension base="propertyType">
+                    <xsd:attribute name="type">
+                        <xsd:simpleType>
+                            <xsd:restriction base="xsd:string">
+                                <xsd:enumeration value="string"/>
+                                <xsd:enumeration value="int"/>
+                                <xsd:enumeration value="boolean"/>
+                                <xsd:enumeration value="class"/>
+                            </xsd:restriction>
+                        </xsd:simpleType>
+                    </xsd:attribute>
+                </xsd:extension>
+            </xsd:complexContent>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="constructor">
+        <xsd:complexType>
+            <xsd:choice minOccurs="0" maxOccurs="40">
+                <xsd:element ref="property"/>
+            </xsd:choice>
+        </xsd:complexType>
+    </xsd:element>
+
+</xsd:schema>
